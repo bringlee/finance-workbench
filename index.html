@@ -2,7 +2,16 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#2563eb" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="财务工作台" />
+  <meta name="description" content="高效 · 清晰 · 可控的个人财务工作台" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" type="image/png" href="./icon-192.png" />
+  <link rel="apple-touch-icon" href="./icon-192.png" />
   <title>财务工作台</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -193,6 +202,96 @@
     .form-group textarea { resize: vertical; min-height: 70px; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; }
+
+    /* ============ 移动端适配 ============ */
+    html { -webkit-text-size-adjust: 100%; }
+    body { height: 100vh; height: 100dvh; touch-action: manipulation; overscroll-behavior: none; }
+    .app { height: 100vh; height: 100dvh; }
+    button, .nav-item, .link-card { -webkit-tap-highlight-color: transparent; }
+
+    /* 表格横向滚动容器（移动端） */
+    .table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .table-wrap table, .table-wrap .todo-table { min-width: 640px; }
+
+    /* 底部标签导航（移动端显示，桌面隐藏） */
+    .bottom-nav { display: none; }
+    .topbar-brand { display: none; }
+
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+
+      .bottom-nav {
+        display: flex;
+        position: fixed;
+        left: 0; right: 0; bottom: 0;
+        z-index: 90;
+        background: var(--card-bg);
+        border-top: 1px solid var(--border);
+        box-shadow: 0 -2px 12px rgba(0,0,0,0.05);
+        padding-bottom: env(safe-area-inset-bottom, 0);
+      }
+      .bottom-nav .nav-item {
+        flex: 1;
+        flex-direction: column;
+        gap: 2px;
+        padding: 8px 0 6px;
+        margin: 0;
+        border-radius: 0;
+        font-size: 11px;
+        min-height: 50px;
+        justify-content: center;
+      }
+      .bottom-nav .nav-item:hover { background: transparent; }
+      .bottom-nav .nav-item.active { background: transparent; color: var(--primary); }
+      .bottom-nav .nav-item .icon { font-size: 20px; width: auto; }
+
+      .topbar { height: auto; min-height: 52px; padding: 8px 14px; gap: 10px; padding-top: calc(8px + env(safe-area-inset-top, 0)); }
+      .topbar h2 { font-size: 16px; }
+      .topbar-brand { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; background: var(--primary); color: #fff; border-radius: 8px; font-size: 15px; font-weight: 600; flex-shrink: 0; }
+      .topbar-date { font-size: 12px; }
+
+      .content { padding: 14px 12px calc(78px + env(safe-area-inset-bottom, 0)); }
+      .card { padding: 16px; margin-bottom: 14px; }
+      .card-header { margin-bottom: 12px; }
+      .btn { padding: 9px 12px; min-height: 40px; }
+
+      .summary-row { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 14px; }
+      .summary-box { padding: 14px; }
+      .summary-box .value { font-size: 18px; }
+
+      .link-grid, .link-stats, .account-grid { grid-template-columns: 1fr; gap: 12px; }
+      .link-toolbar input { min-width: 0; flex: 1; width: 100%; }
+      .link-toolbar { gap: 8px; }
+
+      th, td, .todo-table th, .todo-table td { padding: 10px 8px; font-size: 12px; }
+
+      .legal-person-grid { grid-template-columns: 1fr; }
+
+      .todo-toolbar { gap: 8px; }
+      .todo-toolbar input { min-width: 0; }
+
+      .form-row { grid-template-columns: 1fr; gap: 12px; }
+      .form-group input, .form-group select, .form-group textarea,
+      .cell-input, .cell-select { font-size: 16px; } /* 防止 iOS 聚焦缩放 */
+      td .cell-input, td .cell-select { font-size: 13px; }
+
+      .modal { width: 100%; max-width: 100vw; max-height: 100dvh; height: 100%; border-radius: 0; }
+      .modal-overlay { align-items: stretch; }
+      .modal-header { padding: 16px 18px; padding-top: calc(16px + env(safe-area-inset-top, 0)); }
+      .modal-body { padding: 18px; }
+      .modal-footer { padding: 14px 18px; padding-bottom: calc(14px + env(safe-area-inset-bottom, 0)); }
+      .modal-footer .btn { flex: 1; }
+    }
+
+    @media (max-width: 380px) {
+      .summary-row { grid-template-columns: 1fr; }
+      .topbar-date { display: none; }
+    }
+
+    /* standalone（已安装到桌面）模式细节 */
+    @media (display-mode: standalone) {
+      .topbar { padding-top: calc(8px + env(safe-area-inset-top, 0)); }
+    }
   </style>
 </head>
 <body>
@@ -214,6 +313,7 @@
 
     <main class="main">
       <header class="topbar">
+        <span class="topbar-brand">财</span>
         <h2 id="page-title">税务申报</h2>
         <div class="topbar-date" id="current-date"></div>
       </header>
@@ -229,10 +329,12 @@
           </div>
           <div class="card">
             <div class="card-header"><div class="card-title">申报提醒及数据核对</div><button class="btn btn-primary" onclick="addTaxItem()">+ 新增申报项</button></div>
-            <table>
-              <thead><tr><th>税种</th><th>申报周期</th><th>截止日</th><th>状态</th><th>核对结果</th><th>金额</th><th>备注</th><th style="width:90px;">操作</th></tr></thead>
-              <tbody id="tax-table"></tbody>
-            </table>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>税种</th><th>申报周期</th><th>截止日</th><th>状态</th><th>核对结果</th><th>金额</th><th>备注</th><th style="width:90px;">操作</th></tr></thead>
+                <tbody id="tax-table"></tbody>
+              </table>
+            </div>
           </div>
         </section>
 
@@ -265,10 +367,12 @@
           </div>
           <div class="card">
             <div class="card-header"><div class="card-title">每月付款计划</div><button class="btn btn-primary" onclick="addPayment()">+ 新增付款</button></div>
-            <table>
-              <thead><tr><th>付款对象</th><th>付款内容</th><th>计划日期</th><th>金额</th><th>状态</th><th>进度</th><th style="width:90px;">操作</th></tr></thead>
-              <tbody id="payment-table"></tbody>
-            </table>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>付款对象</th><th>付款内容</th><th>计划日期</th><th>金额</th><th>状态</th><th>进度</th><th style="width:90px;">操作</th></tr></thead>
+                <tbody id="payment-table"></tbody>
+              </table>
+            </div>
           </div>
         </section>
 
@@ -295,6 +399,15 @@
       </div>
     </main>
   </div>
+
+  <!-- 底部标签导航（移动端） -->
+  <nav class="bottom-nav">
+    <div class="nav-item active" data-section="tax"><span class="icon">📋</span><span>税务</span></div>
+    <div class="nav-item" data-section="links"><span class="icon">🔗</span><span>网址</span></div>
+    <div class="nav-item" data-section="payments"><span class="icon">💳</span><span>付款</span></div>
+    <div class="nav-item" data-section="todos"><span class="icon">✅</span><span>待办</span></div>
+    <div class="nav-item" data-section="accounts"><span class="icon">🏦</span><span>账户</span></div>
+  </nav>
 
   <!-- 通用弹窗 -->
   <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
@@ -421,18 +534,19 @@
       return map[status] || 'tag-blue';
     }
 
-    // 导航
-    const navItems = document.querySelectorAll('.nav-item');
+    // 导航（侧边栏 + 底部标签共用，按 data-section 同步高亮）
+    const navItems = document.querySelectorAll('[data-section]');
     const sections = document.querySelectorAll('.section');
     const pageTitle = document.getElementById('page-title');
+    const contentEl = document.querySelector('.content');
     const titles = { tax: '税务申报', links: '常用网址', payments: '付款计划', todos: '待办备忘', accounts: '账户信息' };
     navItems.forEach(item => item.addEventListener('click', () => {
-      navItems.forEach(i => i.classList.remove('active'));
-      item.classList.add('active');
       const target = item.dataset.section;
+      navItems.forEach(i => i.classList.toggle('active', i.dataset.section === target));
       sections.forEach(s => s.classList.remove('active'));
       document.getElementById(target).classList.add('active');
       pageTitle.textContent = titles[target];
+      if (contentEl) contentEl.scrollTop = 0;
     }));
 
     const now = new Date();
@@ -730,7 +844,10 @@
           tbody.appendChild(tr);
         });
         table.appendChild(tbody);
-        groupEl.appendChild(table);
+        const tableWrap = document.createElement('div');
+        tableWrap.className = 'table-wrap';
+        tableWrap.appendChild(table);
+        groupEl.appendChild(tableWrap);
         container.appendChild(groupEl);
       });
     }
@@ -1096,6 +1213,13 @@
       payFilter.value = dateToMonth(formatDateISO(now));
       renderTax(); renderLinks(); renderPayments(); renderTodos(); renderAccounts();
     });
+
+    // 注册 Service Worker（PWA 离线支持）
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(err => console.warn('SW 注册失败:', err));
+      });
+    }
   </script>
 </body>
 </html>
