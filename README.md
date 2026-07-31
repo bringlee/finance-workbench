@@ -1,6 +1,6 @@
 # finance-workbench
 
-Live site: Coming soon
+Live site: https://bringlee.github.io/finance-workbench/
 
 ## Development
 
